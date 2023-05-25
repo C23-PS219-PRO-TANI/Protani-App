@@ -19,19 +19,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.capstone.protani.R
 import com.capstone.protani.ui.theme.blue200
-import com.capstone.protani.ui.theme.cardColor
-import com.capstone.protani.ui.theme.green200
+import com.capstone.protani.ui.theme.green500
 
 @Composable
 fun HomeScreen(){
-
     Box(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
@@ -87,7 +88,6 @@ fun HomeScreen(){
             painter = painterResource(id = R.drawable.kakek_cangkul),
             contentDescription = stringResource(id = R.string.kakek_desc)
         )
-
         Image(
             modifier = Modifier
                 .fillMaxWidth()
@@ -95,19 +95,145 @@ fun HomeScreen(){
             painter = painterResource(id = R.drawable.vector_12),
             contentDescription = stringResource(id = R.string.protani_logo),
         )
+        Row(
+            modifier= Modifier
+                .padding(top = 32.dp, start = 12.dp)
+                .align(Alignment.CenterStart)
+        ) {
+            Column{
+                Text(
+                    text = stringResource(id = R.string.fitur_protani),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .padding(start = 10.dp),
+                )
+                Row(modifier=Modifier.padding(start = 10.dp)) {
+                    Card(
+                        modifier = Modifier
+                            .size(width = 156.dp, height = 100.dp)
+                            .padding(top = 32.dp),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Column(modifier = Modifier
+                            .padding(10.dp)
+                        ) {
+                            Row(modifier=Modifier
+                                .align(Alignment.Start)) {
+                                Image(
+                                    modifier=Modifier.size(width = 60.dp, height = 60.dp),
+                                    painter = painterResource(id = R.drawable.wikipadi),
+                                    contentDescription = "Wikipadi"
+                                )
+                                Text(
+                                    modifier=Modifier.align(Alignment.CenterVertically),
+                                    text="Wikipadi",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp,
+                                    color= green500,
+                                    fontFamily = FontFamily(Font(R.font.netflix_sans))
+                                )
 
-        Text(
-            text = stringResource(id = R.string.fitur_protani),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier
-                .padding(start = 10.dp)
-        )
-//        Column(modifier=Modifier.) {
-//
-//        }
+                            }
+
+                        }
+                    }
+                    Card(
+                        modifier = Modifier
+                            .size(width = 156.dp, height = 100.dp)
+                            .padding(top = 32.dp, start = 10.dp),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Column(modifier = Modifier
+                            .padding(10.dp)
+                        ) {
+                            Row(modifier=Modifier
+                                .align(Alignment.Start)) {
+                                Image(
+                                    modifier=Modifier.size(width = 60.dp, height = 60.dp),
+                                    painter = painterResource(id = R.drawable.chatbot),
+                                    contentDescription = "ChatBot"
+                                )
+                                Text(
+                                    modifier=Modifier.align(Alignment.CenterVertically),
+                                    text="ChatBot",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp,
+                                    color= green500,
+                                    fontFamily = FontFamily(Font(R.font.netflix_sans))
+                                )
+                            }
+
+                        }
+                    }
+                }
+                Row(modifier=Modifier.padding(start = 10.dp)) {
+                    Card(
+                        modifier = Modifier
+                            .size(width = 156.dp, height = 100.dp)
+                            .padding(top = 32.dp),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Column(modifier = Modifier
+                            .padding(10.dp)
+                        ) {
+                            Row(modifier=Modifier
+                                .align(Alignment.Start)) {
+                                Image(
+                                    modifier=Modifier.size(width = 60.dp, height = 60.dp),
+                                    painter = painterResource(id = R.drawable.tentangaplikasi),
+                                    contentDescription = "aboutApp"
+                                )
+                                Text(
+                                    modifier= Modifier
+                                        .padding(start = 10.dp)
+                                        .align(Alignment.CenterVertically),
+                                    text="Tentang\nAplikasi",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp,
+                                    color= green500,
+                                    fontFamily = FontFamily(Font(R.font.netflix_sans))
+                                )
+
+                            }
+
+                        }
+                    }
+                    Card(
+                        modifier = Modifier
+                            .size(width = 156.dp, height = 100.dp)
+                            .padding(top = 32.dp, start = 10.dp),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Column(modifier = Modifier
+                            .padding(10.dp)
+                        ) {
+                            Row(modifier=Modifier
+                                .align(Alignment.Start)) {
+                                Image(
+                                    modifier=Modifier.size(width = 60.dp, height = 60.dp),
+                                    painter = painterResource(id = R.drawable.petasebaran),
+                                    contentDescription = "petaSebaran"
+                                )
+                                Text(
+                                    modifier= Modifier
+                                        .padding(start = 10.dp)
+                                        .align(Alignment.CenterVertically),
+                                    text="Peta\nSebaran",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp,
+                                    color= green500,
+                                    fontFamily = FontFamily(Font(R.font.netflix_sans)),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
     }
-
 }
 
 @Composable
