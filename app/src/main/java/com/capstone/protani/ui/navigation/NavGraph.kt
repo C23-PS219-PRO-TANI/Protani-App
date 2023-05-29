@@ -23,7 +23,7 @@ fun SetupNavGraph(navController: NavHostController){
         }
         composable(route = Screen.Wikipadi.route){
             Box(modifier = Modifier.fillMaxSize()){
-                WikipadiScreen()
+                WikipadiScreen(navHostController = navController)
             }
         }
     }
