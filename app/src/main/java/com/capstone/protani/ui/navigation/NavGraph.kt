@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.capstone.protani.ui.AboutScreen
 import com.capstone.protani.ui.AnimatedSplashScreen
 import com.capstone.protani.ui.HomeScreen
 import com.capstone.protani.ui.WikipadiScreen
@@ -24,6 +25,11 @@ fun SetupNavGraph(navController: NavHostController){
         composable(route = Screen.Wikipadi.route){
             Box(modifier = Modifier.fillMaxSize()){
                 WikipadiScreen(navHostController = navController)
+            }
+        }
+        composable(route = Screen.About.route){
+            Box(modifier = Modifier.fillMaxSize()){
+                AboutScreen(navHostController = navController)
             }
         }
     }

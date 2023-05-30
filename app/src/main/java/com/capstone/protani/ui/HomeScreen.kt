@@ -201,7 +201,9 @@ fun HomeScreen(navController: NavHostController){
                                 modifier = Modifier
                                     .size(width = 156.dp, height = 100.dp)
                                     .padding(top = 32.dp)
-                                    .clickable { Toast.makeText(context,"clicked!",Toast.LENGTH_SHORT).show() },
+                                    .clickable {
+                                        navController.popBackStack()
+                                        navController.navigate(Screen.About.route) },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Column(modifier = Modifier
