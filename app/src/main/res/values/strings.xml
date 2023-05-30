@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Protani</string>
+    <string name="app_name">PRO-Tani</string>
     <string name="protani_logo">Logo Image</string>
     <string name="vector_splash">Vector Splash</string>
-    <string name="title_protani">Pro-Tani</string>
+    <string name="title_protani">PRO-Tani</string>
     <string name="scratch">Scratch</string>
     <string name="kakek_desc">Gambar Protani</string>
     <string name="profile">Profile Tani</string>
