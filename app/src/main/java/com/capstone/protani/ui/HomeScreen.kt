@@ -42,7 +42,9 @@ fun HomeScreen(navController: NavHostController){
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {  },
+                onClick = {
+
+                },
                 backgroundColor = yellowFAB,
                 contentColor = MaterialTheme.colors.background,
                 elevation = FloatingActionButtonDefaults.elevation(2.dp,3.dp)
@@ -85,7 +87,7 @@ fun HomeScreen(navController: NavHostController){
                         mutableStateOf(false)
                     }
                     Switch(
-                        modifier=Modifier.padding(start = 50.dp),
+                        modifier=Modifier.padding(start = 200.dp),
                         checked = checkedState.value,
                         onCheckedChange = {checkedState.value = it},
                         colors = SwitchDefaults.colors(blue200),
@@ -120,17 +122,17 @@ fun HomeScreen(navController: NavHostController){
                 )
                 Row(
                     modifier= Modifier
-                        .padding(top = 32.dp, start = 12.dp)
-                        .align(Alignment.CenterStart)
+                        .padding(top = 150.dp, end = 20.dp)
+                        .align(Alignment.Center)
                 ) {
                     Column{
-                        Text(
-                            text = stringResource(id = R.string.fitur_protani),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            modifier = Modifier
-                                .padding(start = 10.dp),
-                        )
+//                        Text(
+//                            text = stringResource(id = R.string.fitur_protani),
+//                            fontWeight = FontWeight.Bold,
+//                            fontSize = 18.sp,
+//                            modifier = Modifier
+//                                .padding(start = 10.dp),
+//                        )
                         val context = LocalContext.current
                         Row(modifier=Modifier.padding(start = 10.dp)) {
                             Card(
