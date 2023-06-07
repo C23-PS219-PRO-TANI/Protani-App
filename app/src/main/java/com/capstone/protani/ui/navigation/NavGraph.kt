@@ -32,5 +32,10 @@ fun SetupNavGraph(navController: NavHostController){
                 AboutScreen(navHostController = navController)
             }
         }
+        composable(route = Screen.CameraScanner.route){
+            Box(modifier = Modifier.fillMaxSize()) {
+
+            }
+        }
     }
 }
