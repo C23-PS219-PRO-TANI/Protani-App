@@ -42,9 +42,7 @@ fun HomeScreen(navController: NavHostController){
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-
-                },
+                onClick = {navController.navigate(Screen.CameraScanner.route)},
                 backgroundColor = yellowFAB,
                 contentColor = MaterialTheme.colors.background,
                 elevation = FloatingActionButtonDefaults.elevation(2.dp,3.dp)
