@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.capstone.protani.ui.AboutScreen
 import com.capstone.protani.ui.AnimatedSplashScreen
+import com.capstone.protani.ui.CameraScannerScreen
 import com.capstone.protani.ui.HomeScreen
 import com.capstone.protani.ui.WikipadiScreen
 
@@ -34,7 +35,7 @@ fun SetupNavGraph(navController: NavHostController){
         }
         composable(route = Screen.CameraScanner.route){
             Box(modifier = Modifier.fillMaxSize()) {
-
+                CameraScannerScreen()
             }
         }
     }
