@@ -6,4 +6,5 @@ sealed class Screen(val route:String) {
     object Wikipadi:Screen("wikipadi_screen")
     object About:Screen("about_screen")
     object CameraScanner:Screen("cameraScanner_screen")
+    object deteksiPenyakit:Screen("deteksiPenyakit_screen")
 }
