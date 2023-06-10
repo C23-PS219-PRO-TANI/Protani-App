@@ -14,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.border
@@ -42,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
@@ -53,7 +53,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
-import com.capstone.protani.ml.Model
+import com.capstone.protani.ml.ModelUnquant
 import com.capstone.protani.ui.navigation.Screen
 import com.capstone.protani.ui.viewmodels.PlantViewModel
 import org.tensorflow.lite.DataType
@@ -74,11 +74,10 @@ import kotlin.coroutines.suspendCoroutine
 private var shouldShowCamera = mutableStateOf(false)
 private var shouldShowPhoto:MutableState<Boolean> = mutableStateOf(false)
 private var uriPhoto:Uri?=null
-private val GALLERY_REQUEST_CODE = 123
 
 var imageProcessor: ImageProcessor = ImageProcessor.Builder()
+    .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
     .add(NormalizeOp(0.0f, 255.0f))
-    .add(ResizeOp(128, 128, ResizeOp.ResizeMethod.BILINEAR))
     .build()
 
 @Composable
@@ -94,7 +93,7 @@ fun CameraView(
     val lifecycleOwner = LocalLifecycleOwner.current
 
 
-    val preview = Preview.Builder().build()
+    val preview = androidx.camera.core.Preview.Builder().build()
     val previewView = remember { PreviewView(context) }
     val imageCapture: ImageCapture = remember { ImageCapture.Builder().build() }
     val cameraSelector = CameraSelector.Builder()
@@ -132,6 +131,7 @@ fun CameraView(
                     onError = onError
                 )
             },
+            //Buat aksi klasifikasi
             content = {
                 Icon(
                     imageVector = Icons.Sharp.Lens,
@@ -230,7 +230,7 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
                     .load(uriPhoto)
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            outputGenerator(resource,context)
+                            outputGenerator(resource, context)
                         }
                         override fun onLoadCleared(placeholder: Drawable?) {
                             // this is called when imageView is cleared on lifecycle call or for
@@ -246,9 +246,11 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
             onDispose {
                 cameraExecutor.shutdown()
             }
+
         }
 
     }
+
 }
 
 private fun takePhoto(
@@ -299,27 +301,24 @@ private fun getOutputDirectory(context:Context): File {
 }
 
 private fun outputGenerator(bitmap: Bitmap,context: Context){
-    val model = Model.newInstance(context)
+    val model = ModelUnquant.newInstance(context)
 
     var tensorImage = TensorImage(DataType.FLOAT32)
     tensorImage.load(bitmap)
 
     tensorImage = imageProcessor.process(tensorImage)
 
-    val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 128, 128, 3), DataType.FLOAT32)
+    val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
     inputFeature0.loadBuffer(tensorImage.buffer)
 
     val outputs = model.process(inputFeature0)
     val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
 
-    var maxIdx = 0
-    outputFeature0.forEachIndexed { index, fl ->
-        if(outputFeature0[maxIdx] > fl){
-            maxIdx = index
-        }
-    }
-    val maxIdValues = arrayOf("Gatau apaan","Hawar Padi","Blast","Tungro","Sehat")
-    val result = maxIdValues[maxIdx]
+    val maxIdx = outputFeature0.indices.maxByOrNull { outputFeature0[it] } ?: -1
 
+    val maxIdValues = arrayOf("Bacterial Blight","Blast","Brownspot","Healthy","Tungro")
+    val result = maxIdValues[maxIdx]
+//    onResult = (String) -> Unit (masukin ke paramter)
+//    onResult(result)
     model.close()
 }
