@@ -28,6 +28,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Lens
 import androidx.compose.material.icons.sharp.Upload
@@ -46,7 +47,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -79,6 +83,7 @@ private var shouldShowCamera = mutableStateOf(false)
 private var shouldShowStorage:Boolean? = null
 private var shouldShowPhoto:MutableState<Boolean> = mutableStateOf(false)
 private var uriPhoto:Uri?=null
+private var outputResult:MutableState<String> = mutableStateOf("")
 
 var imageProcessor: ImageProcessor = ImageProcessor.Builder()
     .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
@@ -104,7 +109,7 @@ fun CameraView(
             .load(uri)
             .into(object : CustomTarget<Bitmap>(){
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    outputGenerator(resource, context)
+                    outputResult.value = outputGenerator(resource, context)
                 }
                 override fun onLoadCleared(placeholder: Drawable?) {
                     // this is called when imageView is cleared on lifecycle call or for
@@ -160,11 +165,13 @@ fun CameraView(
             preview.setSurfaceProvider(previewView.surfaceProvider)
         },ContextCompat.getMainExecutor(context))
     }
-
+    Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()){
+        AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
+        popUp(result = outputResult.value)
+    }
     Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier
         .fillMaxSize()
         .padding(bottom = 30.dp)) {
-        AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
         IconButton(
             modifier = Modifier.padding(bottom = 20.dp),
             onClick = {
@@ -260,7 +267,7 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
                     .load(uriPhoto)
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            outputGenerator(resource, context)
+                            outputResult.value = outputGenerator(resource, context)
                         }
                         override fun onLoadCleared(placeholder: Drawable?) {
                             // this is called when imageView is cleared on lifecycle call or for
@@ -329,8 +336,18 @@ private fun getOutputDirectory(context:Context): File {
     }
     return if ((mediaDir != null) && mediaDir.exists()) mediaDir else context.filesDir
 }
-
-private fun outputGenerator(bitmap: Bitmap,context: Context){
+@Composable
+fun popUp(result:String){
+    Box{
+        Text(
+            modifier=Modifier.align(Alignment.TopCenter),
+            text = result,
+            color = Color.White,
+            fontSize = 20.sp
+        )
+    }
+}
+private fun outputGenerator(bitmap: Bitmap,context: Context):String{
     val model = ModelUnquant.newInstance(context)
 
     var tensorImage = TensorImage(DataType.FLOAT32)
@@ -348,8 +365,6 @@ private fun outputGenerator(bitmap: Bitmap,context: Context){
 
     val maxIdValues = arrayOf("Bacterial Blight","Blast","Brownspot","Healthy","Tungro")
     val result = maxIdValues[maxIdx]
-    Toast.makeText(context,"result : ${result}",Toast.LENGTH_SHORT).show()
-//    onResult = (String) -> Unit (masukin ke paramter)
-//    onResult(result)
     model.close()
+    return result
 }
