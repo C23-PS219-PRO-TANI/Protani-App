@@ -5,8 +5,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -25,7 +28,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Lens
 import androidx.compose.material.icons.sharp.Upload
@@ -34,18 +36,21 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.Glide
@@ -54,7 +59,6 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
 import com.capstone.protani.ml.ModelUnquant
-import com.capstone.protani.ui.navigation.Screen
 import com.capstone.protani.ui.viewmodels.PlantViewModel
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
@@ -91,7 +95,24 @@ fun CameraView(
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()){uri:Uri?->
+        Glide.with(context)
+            .asBitmap()
+            .apply(RequestOptions().override(600,600))
+            .load(uri)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    outputGenerator(resource, context)
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    // this is called when imageView is cleared on lifecycle call or for
+                    // some other reason.
+                    // if you are referencing the bitmap somewhere else too other than this imageView
+                    // clear it here as you can no longer have the bitmap
+                }
+            })
+    }
 
     val preview = androidx.camera.core.Preview.Builder().build()
     val previewView = remember { PreviewView(context) }
@@ -148,9 +169,7 @@ fun CameraView(
             modifier = Modifier
                 .padding(bottom = 30.dp, end = 30.dp)
                 .align(Alignment.BottomEnd),
-            onClick = { // upload image action
-
-            },
+            onClick = { launcher.launch("image/*") },
             content = {
                 Icon(
                     imageVector = Icons.Sharp.Upload,
@@ -165,7 +184,6 @@ fun CameraView(
         )
     }
 }
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CameraScannerScreen(navHostController: NavHostController,context:Context){
@@ -318,6 +336,7 @@ private fun outputGenerator(bitmap: Bitmap,context: Context){
 
     val maxIdValues = arrayOf("Bacterial Blight","Blast","Brownspot","Healthy","Tungro")
     val result = maxIdValues[maxIdx]
+    Toast.makeText(context,"result : ${result}",Toast.LENGTH_SHORT).show()
 //    onResult = (String) -> Unit (masukin ke paramter)
 //    onResult(result)
     model.close()

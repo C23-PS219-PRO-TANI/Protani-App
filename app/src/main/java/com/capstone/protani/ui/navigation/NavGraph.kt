@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import com.capstone.protani.ui.AboutScreen
 import com.capstone.protani.ui.AnimatedSplashScreen
 import com.capstone.protani.ui.CameraScannerScreen
-import com.capstone.protani.ui.DeteksiPenyakitScreen
 import com.capstone.protani.ui.HomeScreen
 import com.capstone.protani.ui.WikipadiScreen
 
@@ -38,11 +37,6 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
         composable(route = Screen.CameraScanner.route){
             Box(modifier = Modifier.fillMaxSize()) {
                 CameraScannerScreen(navController,context)
-            }
-        }
-        composable(route = Screen.deteksiPenyakit.route){
-            Box(modifier = Modifier.fillMaxSize()){
-                DeteksiPenyakitScreen(navController)
             }
         }
     }
