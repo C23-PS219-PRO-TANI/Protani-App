@@ -5,11 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,12 +16,15 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -38,24 +38,22 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavHostController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -63,7 +61,8 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
 import com.capstone.protani.ml.ModelUnquant
-import com.capstone.protani.ui.viewmodels.PlantViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -89,6 +88,32 @@ var imageProcessor: ImageProcessor = ImageProcessor.Builder()
     .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
     .add(NormalizeOp(0.0f, 255.0f))
     .build()
+@Composable
+fun popUpDialog(result: String,visibility:Boolean) {
+    AnimatedVisibility(visible = visibility) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(modifier=
+            Modifier
+                .background(Color.White)
+                .size(width = 300.dp, height = 300.dp)
+            ) {
+                Text(
+                    text = result,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun CameraView(
@@ -97,12 +122,13 @@ fun CameraView(
     onImageCaptured: (Uri) -> Unit,
     onError: (ImageCaptureException) -> Unit,
 ){
-
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val visibilityPopUp:MutableState<Boolean> = remember {mutableStateOf(false)}
     val storageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()){uri:Uri?->
+        visibilityPopUp.value = true
         Glide.with(context)
             .asBitmap()
             .apply(RequestOptions().override(600,600))
@@ -119,7 +145,7 @@ fun CameraView(
                 }
             })
     }
-    //permission launcher
+        //permission launcher
         val permissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission()
         ) { isGranted ->
@@ -165,10 +191,12 @@ fun CameraView(
             preview.setSurfaceProvider(previewView.surfaceProvider)
         },ContextCompat.getMainExecutor(context))
     }
+    //viewBox
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()){
         AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
-        popUp(result = outputResult.value)
+        popUpDialog(result = outputResult.value,visibility = visibilityPopUp.value)
     }
+    //button box
     Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier
         .fillMaxSize()
         .padding(bottom = 30.dp)) {
@@ -183,8 +211,8 @@ fun CameraView(
                     onImageCaptured = onImageCaptured,
                     onError = onError
                 )
+                visibilityPopUp.value = true
             },
-            //Buat aksi klasifikasi
             content = {
                 Icon(
                     imageVector = Icons.Sharp.Lens,
@@ -202,8 +230,11 @@ fun CameraView(
                 .padding(bottom = 30.dp, end = 30.dp)
                 .align(Alignment.BottomEnd),
             onClick = {
-                if(shouldShowStorage == true)storageLauncher.launch("image/*")
-                else Toast.makeText(context,"Permission not granted!",Toast.LENGTH_SHORT).show() },
+                if(shouldShowStorage == true){
+                    storageLauncher.launch("image/*")
+                } else{
+                    Toast.makeText(context,"Permission not granted!",Toast.LENGTH_SHORT).show()
+                } },
             content = {
                 Icon(
                     imageVector = Icons.Sharp.Upload,
@@ -221,7 +252,6 @@ fun CameraView(
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun CameraScannerScreen(navHostController: NavHostController,context:Context){
-    val plantViewModel = viewModel<PlantViewModel>()
     Scaffold(modifier=Modifier.fillMaxSize()) {
         //permission launcher
         val permissionLauncher = rememberLauncherForActivityResult(
@@ -336,17 +366,7 @@ private fun getOutputDirectory(context:Context): File {
     }
     return if ((mediaDir != null) && mediaDir.exists()) mediaDir else context.filesDir
 }
-@Composable
-fun popUp(result:String){
-    Box{
-        Text(
-            modifier=Modifier.align(Alignment.TopCenter),
-            text = result,
-            color = Color.White,
-            fontSize = 20.sp
-        )
-    }
-}
+
 private fun outputGenerator(bitmap: Bitmap,context: Context):String{
     val model = ModelUnquant.newInstance(context)
 
