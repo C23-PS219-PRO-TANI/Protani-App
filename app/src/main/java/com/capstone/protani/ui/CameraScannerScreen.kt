@@ -76,6 +76,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 private var shouldShowCamera = mutableStateOf(false)
+private var shouldShowStorage:Boolean? = null
 private var shouldShowPhoto:MutableState<Boolean> = mutableStateOf(false)
 private var uriPhoto:Uri?=null
 
@@ -95,7 +96,7 @@ fun CameraView(
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val launcher = rememberLauncherForActivityResult(
+    val storageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()){uri:Uri?->
         Glide.with(context)
             .asBitmap()
@@ -113,6 +114,30 @@ fun CameraView(
                 }
             })
     }
+    //permission launcher
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                shouldShowStorage = true
+            }
+        }
+        //permission for external storage
+        when{
+            ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED -> {
+                shouldShowStorage = true
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                LocalContext.current as Activity,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE)->
+                shouldShowStorage = true
+            else->{
+                SideEffect {
+                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
+            }
+        }
 
     val preview = androidx.camera.core.Preview.Builder().build()
     val previewView = remember { PreviewView(context) }
@@ -169,7 +194,9 @@ fun CameraView(
             modifier = Modifier
                 .padding(bottom = 30.dp, end = 30.dp)
                 .align(Alignment.BottomEnd),
-            onClick = { launcher.launch("image/*") },
+            onClick = {
+                if(shouldShowStorage == true)storageLauncher.launch("image/*")
+                else Toast.makeText(context,"Permission not granted!",Toast.LENGTH_SHORT).show() },
             content = {
                 Icon(
                     imageVector = Icons.Sharp.Upload,
@@ -189,7 +216,7 @@ fun CameraView(
 fun CameraScannerScreen(navHostController: NavHostController,context:Context){
     val plantViewModel = viewModel<PlantViewModel>()
     Scaffold(modifier=Modifier.fillMaxSize()) {
-        //permission launcher & check if those permissions is already granted
+        //permission launcher
         val permissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission()
         ) { isGranted ->
@@ -211,22 +238,7 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
                 }
             }
         }
-        //permission for external storage
-        when{
-            ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED -> {
-                shouldShowCamera.value = true
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                LocalContext.current as Activity,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)->
-                Log.i("storage permission","Storage permission granted!")
-            else->{
-                SideEffect {
-                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            }
-        }
+
         //camera execution
         val cameraExecutor:ExecutorService = Executors.newSingleThreadExecutor()
         val outputDirectory = getOutputDirectory(context = context)
