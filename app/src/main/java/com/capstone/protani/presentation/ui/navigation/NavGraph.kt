@@ -1,4 +1,4 @@
-package com.capstone.protani.ui.navigation
+package com.capstone.protani.presentation.ui.navigation
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -13,6 +13,13 @@ import com.capstone.protani.ui.AnimatedSplashScreen
 import com.capstone.protani.ui.CameraScannerScreen
 import com.capstone.protani.ui.HomeScreen
 import com.capstone.protani.ui.WikipadiScreen
+import com.capstone.protani.presentation.ui.AboutScreen
+import com.capstone.protani.presentation.ui.AnimatedSplashScreen
+import com.capstone.protani.presentation.ui.CameraScannerScreen
+import com.capstone.protani.presentation.ui.ChatBot
+import com.capstone.protani.presentation.ui.HomeScreen
+import com.capstone.protani.presentation.ui.MapScreen
+import com.capstone.protani.presentation.ui.WikipadiScreen
 
 
 @Composable
@@ -42,6 +49,11 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
         composable(route=Screen.ChatBot.route){
             Box(modifier=Modifier.fillMaxSize()){
                 ChatBot(navController)
+            }
+        }
+        composable(route=Screen.MapScreen.route){
+            Box(modifier = Modifier.fillMaxSize()){
+                MapScreen()
             }
         }
     }

@@ -237,7 +237,7 @@ fun HomeScreen(navController: NavHostController){
                                 modifier = Modifier
                                     .size(width = 156.dp, height = 100.dp)
                                     .padding(top = 32.dp, start = 10.dp)
-                                    .clickable {  },
+                                    .clickable { navController.navigate(Screen.MapScreen.route) },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Column(modifier = Modifier

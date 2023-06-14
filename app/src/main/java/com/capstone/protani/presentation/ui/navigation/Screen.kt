@@ -8,4 +8,5 @@ sealed class Screen(val route:String) {
     object CameraScanner: Screen("cameraScanner_screen")
     object deteksiPenyakit: Screen("deteksiPenyakit_screen")
     object ChatBot:Screen("chatbot_screen")
+    object MapScreen:Screen("map_screen")
 }
