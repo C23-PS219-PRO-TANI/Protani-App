@@ -170,7 +170,7 @@ fun HomeScreen(navController: NavHostController){
                                 modifier = Modifier
                                     .size(width = 156.dp, height = 100.dp)
                                     .padding(top = 32.dp, start = 10.dp)
-                                    .clickable { Toast.makeText(context,"clicked!",Toast.LENGTH_SHORT).show() },
+                                    .clickable { navController.navigate(Screen.ChatBot.route) },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Column(modifier = Modifier
