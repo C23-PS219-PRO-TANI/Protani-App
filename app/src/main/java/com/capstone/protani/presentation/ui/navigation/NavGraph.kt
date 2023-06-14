@@ -13,6 +13,7 @@ import com.capstone.protani.presentation.ui.AnimatedSplashScreen
 import com.capstone.protani.presentation.ui.CameraScannerScreen
 import com.capstone.protani.presentation.ui.ChatBot
 import com.capstone.protani.presentation.ui.HomeScreen
+import com.capstone.protani.presentation.ui.MapScreen
 import com.capstone.protani.presentation.ui.WikipadiScreen
 
 
@@ -43,6 +44,11 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
         composable(route=Screen.ChatBot.route){
             Box(modifier=Modifier.fillMaxSize()){
                 ChatBot(navController)
+            }
+        }
+        composable(route=Screen.MapScreen.route){
+            Box(modifier = Modifier.fillMaxSize()){
+                MapScreen()
             }
         }
     }
