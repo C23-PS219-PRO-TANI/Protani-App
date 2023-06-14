@@ -1,4 +1,4 @@
-package com.capstone.protani.ui.components
+package com.capstone.protani.presentation.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,8 +10,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.capstone.protani.ui.theme.bottomBarColor
-import com.capstone.protani.ui.theme.green200
+import com.capstone.protani.presentation.ui.theme.bottomBarColor
+import com.capstone.protani.presentation.ui.theme.green200
 
 @Composable
 fun BottomAppBar(){

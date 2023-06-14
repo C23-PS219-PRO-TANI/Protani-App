@@ -1,4 +1,4 @@
-package com.capstone.protani.ui.components
+package com.capstone.protani.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -8,8 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.capstone.protani.ui.theme.green200
-import com.capstone.protani.ui.theme.green500
+import com.capstone.protani.presentation.ui.theme.green200
+import com.capstone.protani.presentation.ui.theme.green500
 
 @Composable
 fun BottomFontSlider(){

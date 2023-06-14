@@ -1,4 +1,4 @@
-package com.capstone.protani.ui.components
+package com.capstone.protani.presentation.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

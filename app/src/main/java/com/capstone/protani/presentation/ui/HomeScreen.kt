@@ -26,8 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
-import com.capstone.protani.domain.model.WindowInfo
-import com.capstone.protani.domain.model.rememberWindowInfo
 import com.capstone.protani.ui.theme.yellowFAB
 import com.capstone.protani.ui.components.BottomAppBar
 import com.capstone.protani.ui.navigation.Screen
@@ -174,7 +172,7 @@ fun HomeScreen(navController: NavHostController){
                                 modifier = Modifier
                                     .size(width = 156.dp, height = 100.dp)
                                     .padding(top = 32.dp, start = 10.dp)
-                                    .clickable { Toast.makeText(context,"clicked!",Toast.LENGTH_SHORT).show() },
+                                    .clickable { navController.navigate(Screen.ChatBot.route) },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Column(modifier = Modifier
