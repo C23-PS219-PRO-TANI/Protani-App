@@ -1,4 +1,4 @@
-package com.capstone.protani.ui
+package com.capstone.protani.presentation.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,8 +34,8 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
 import com.capstone.protani.domain.data.DiseaseData
-import com.capstone.protani.ui.components.DiseasesListItem
-import com.capstone.protani.ui.navigation.Screen
+import com.capstone.protani.presentation.ui.components.DiseasesListItem
+import com.capstone.protani.presentation.ui.navigation.Screen
 
 @Composable
 

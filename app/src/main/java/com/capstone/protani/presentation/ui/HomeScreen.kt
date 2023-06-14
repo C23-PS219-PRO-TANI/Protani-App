@@ -1,4 +1,4 @@
-package com.capstone.protani.ui
+package com.capstone.protani.presentation.ui
 
 import android.annotation.SuppressLint
 import android.widget.Toast
@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
-import com.capstone.protani.ui.theme.yellowFAB
-import com.capstone.protani.ui.components.BottomAppBar
-import com.capstone.protani.ui.navigation.Screen
-import com.capstone.protani.ui.theme.blue200
-import com.capstone.protani.ui.theme.green500
+import com.capstone.protani.presentation.ui.theme.yellowFAB
+import com.capstone.protani.presentation.ui.components.BottomAppBar
+import com.capstone.protani.presentation.ui.navigation.Screen
+import com.capstone.protani.presentation.ui.theme.blue200
+import com.capstone.protani.presentation.ui.theme.green500
 
 @Composable
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -54,7 +54,7 @@ fun HomeScreen(navController: NavHostController){
                 )
             }
         },
-        bottomBar = { BottomAppBar()}
+        bottomBar = { BottomAppBar() }
     ){
         Box(modifier = Modifier
                 .fillMaxWidth()

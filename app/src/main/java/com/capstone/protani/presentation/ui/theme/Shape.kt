@@ -1,4 +1,4 @@
-package com.capstone.protani.ui.theme
+package com.capstone.protani.presentation.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -1,4 +1,4 @@
-package com.capstone.protani.ui
+package com.capstone.protani.presentation.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -80,7 +80,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
 import com.capstone.protani.ml.ModelUnquant
-import com.capstone.protani.ui.theme.modalColor
+import com.capstone.protani.presentation.ui.theme.modalColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.tensorflow.lite.DataType

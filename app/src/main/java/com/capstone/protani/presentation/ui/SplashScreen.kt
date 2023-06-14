@@ -1,4 +1,4 @@
-package com.capstone.protani.ui
+package com.capstone.protani.presentation.ui
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
-import com.capstone.protani.ui.navigation.Screen
-import com.capstone.protani.ui.theme.green500
+import com.capstone.protani.presentation.ui.navigation.Screen
+import com.capstone.protani.presentation.ui.theme.green500
 import kotlinx.coroutines.delay
 
 @Composable
