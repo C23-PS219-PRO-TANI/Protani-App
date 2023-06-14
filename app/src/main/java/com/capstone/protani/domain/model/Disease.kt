@@ -4,4 +4,5 @@ data class Disease(
     val photoUrl:String?=null,
     val title:String,
     val body:String,
+    val diagnosis:String,
 )

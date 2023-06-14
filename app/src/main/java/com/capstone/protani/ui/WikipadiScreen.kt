@@ -1,12 +1,17 @@
 package com.capstone.protani.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,12 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
 import com.capstone.protani.domain.data.DiseaseData
+import com.capstone.protani.domain.model.Disease
 import com.capstone.protani.ui.components.DiseasesListItem
 import com.capstone.protani.ui.navigation.Screen
 
@@ -89,6 +96,7 @@ fun WikipadiScreen(navHostController: NavHostController){
                     }
                 }
                 val items = remember { DiseaseData.disease }
+                val selectedTabIndex = remember { mutableStateOf(0) }
                 Column(
                     modifier= Modifier
                         .fillMaxWidth()
@@ -105,21 +113,67 @@ fun WikipadiScreen(navHostController: NavHostController){
                         painter = painterResource(id = R.drawable.sawah),
                         contentDescription = "sawah"
                     )
-                    LazyColumn(modifier=Modifier
+                    Column(modifier=Modifier
                         .size(width = 400.dp, height = 400.dp)
                     ){
-                        itemsIndexed(items){_,item->
-                            DiseasesListItem(title = item.title, body = item.body, modifier = Modifier)
-                        }
+                        TabLayout(items = items, selectedTabIndex = selectedTabIndex)
                     }
                 }
 
             }
         }
-
-
+    }
+    BackHandler {
+        navHostController.popBackStack()
+        navHostController.navigate(Screen.Home.route)
     }
 }
+
+@Composable
+fun TabLayout(items: List<Disease> , selectedTabIndex: MutableState<Int>) {
+    val titles = items.map { it.title }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        TabRow(selectedTabIndex = selectedTabIndex.value) {
+            titles.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTabIndex.value == index,
+                    onClick = { selectedTabIndex.value = index }
+                ) {
+                    Text(
+                        text = title,
+                        modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 9.sp,
+                        textAlign = TextAlign.Justify
+                    )
+                }
+            }
+        }
+
+        val selectedDisease = items[selectedTabIndex.value]
+        DiseaseInfoItem(disease = selectedDisease)
+    }
+}
+
+@Composable
+fun DiseaseInfoItem(disease: Disease) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = disease.title,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+        Text(
+            text = disease.body,
+            modifier = Modifier.padding(top = 8.dp),
+            textAlign = TextAlign.Justify
+        )
+    }
+}
+
 
 //@Composable
 //@Preview

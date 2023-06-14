@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
+import com.capstone.protani.domain.model.WindowInfo
+import com.capstone.protani.domain.model.rememberWindowInfo
 import com.capstone.protani.ui.theme.yellowFAB
 import com.capstone.protani.ui.components.BottomAppBar
 import com.capstone.protani.ui.navigation.Screen
@@ -35,6 +37,8 @@ import com.capstone.protani.ui.theme.green500
 @Composable
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 fun HomeScreen(navController: NavHostController){
+//    val windowInfo = rememberWindowInfo()
+//    if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Expanded && windowInfo.screenHeightInfo is WindowInfo.WindowType.Expanded){}
     Scaffold(
         scaffoldState = rememberScaffoldState(),
         backgroundColor = Color.White,

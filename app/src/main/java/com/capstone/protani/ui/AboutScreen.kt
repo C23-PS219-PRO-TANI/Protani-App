@@ -1,5 +1,6 @@
 package com.capstone.protani.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,6 +42,7 @@ import com.capstone.protani.ui.navigation.Screen
 
 fun AboutScreen(navHostController: NavHostController){
     val currentLayoutDir = LocalLayoutDirection.current
+
     Scaffold(backgroundColor = Color.White) { padding->
         Column(modifier= Modifier
             .padding(padding)
@@ -130,23 +132,18 @@ fun AboutScreen(navHostController: NavHostController){
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                         Text(
-                            text = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do " +
-                                    "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
-                                    "enim ad minim veniam, quis nostrud exercitation ullamco laboris " +
-                                    "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " +
-                                    "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla " +
-                                    "pariatur. Excepteur sint occaecat cupidatat non proident, " +
-                                    "sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at ex a lectus dictum aliquam. Vestibulum congue, turpis et maximus finibus, augue metus tristique ex, a blandit mauris ligula at felis. Nunc congue massa id eros lacinia gravida. Donec dictum accumsan lacus, in tristique elit pharetra et. Nunc molestie nulla non venenatis egestas. Fusce at augue ac turpis laoreet rutrum ut a odio. Pellentesque at porta tortor. Vestibulum consectetur dignissim fermentum. Pellentesque sed feugiat velit. Integer vulputate interdum justo ac dictum. Nam vel dictum elit. Nullam quis massa eu risus venenatis blandit. Curabitur sed justo finibus lectus luctus ornare vel sit amet orci. Nullam blandit ex at nibh pharetra, et lobortis lectus elementum.",
                             fontWeight = FontWeight.Normal,
                             fontSize = 16.sp,
                             textAlign = TextAlign.Justify
                         )
                     }
                 }
-
             }
         }
-
-
+    }
+    BackHandler {
+        navHostController.popBackStack()
+        navHostController.navigate(Screen.Home.route)
     }
 }

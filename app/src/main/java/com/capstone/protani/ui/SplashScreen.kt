@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
+import com.capstone.protani.domain.model.WindowInfo
+import com.capstone.protani.domain.model.rememberWindowInfo
 import com.capstone.protani.ui.navigation.Screen
 import com.capstone.protani.ui.theme.green500
 import kotlinx.coroutines.delay
@@ -47,6 +49,8 @@ fun AnimatedSplashScreen(navController:NavHostController){
 
 @Composable
 fun Splash(alphaAnimation: Float){
+//    val windowInfo = rememberWindowInfo()
+//    if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact && windowInfo.screenHeightInfo is WindowInfo.WindowType.Compact){}
     Box(
         modifier = Modifier
             .background(if (isSystemInDarkTheme()) Color.Black else green500)

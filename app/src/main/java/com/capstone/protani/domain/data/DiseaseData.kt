@@ -6,25 +6,45 @@ object DiseaseData {
     val disease = listOf(
         Disease(
             id = 1,
-            title = "Penyakit Blast",
-            body = "Blast, Blast menginfeksi tanaman padi pada semua fase pertumbuhan yang disebabkan oleh cendawan pyricularia oryzae." +
-                    "Faktor pemicunya adalah terlalu banyak menggunakan pupuk yang mengandung unsur N serta curah hujan dan kelembaban tinggi. Gejalanya adalah adanya bercak seprti mata pada daun padi atau berbentuk belah ketupat, " +
-                    "lebar ditengah dan kedua ujung meruncing. Selain pada daun, infeksi juga menyerang ruas batang dan leher malai."
+            title = "BACTERIALBLIGHT",
+            body = "Penyakit ini disebabkan oleh Xanthomonas oryzae pv, dan merupakan salah satu penyakit utama yang menyerang tanaman padi (BBPadi, 2015). \n" +
+                    "\n" +
+                    "Padi yang terinfeksi bakteri ini akan menyebabkan daun padi menguning pada tepi daun yang mengakibatkan padi menjadi layu dan akhirnya mati. \n" +
+                    "\n" +
+                    "Gejala ini disebut juga sebagai Kresek.",
+            diagnosis = ""
         ),
         Disease(
             id = 2,
-            title = "Penyakit Padi",
-            body = "Pengendalian serangan penyakit ini dilakukan dengan cara menggunakan varietas yang tahan secara bergantian, menghindari penggunaan pupuk yang mengandung unsur N terlalu banyak, waktu tanam harus tepat agar saat " +
-                    "pembungaan tidak banyak embun atau hujan, atau melakukan penyemprotan dengan fungisida secara berkala."
+            title = "BLAST",
+            body = "Penyakit ini disebabkan oleh jamur Pyricularia grisae (Mew, 2018). Saat penyakit ini menyerang batang padi, maka batang dapat berubah menjadi cokelat dan kemudian membusuk.\n" +
+                    "\n" +
+                    "Apabila tanaman padi dapat bertahan dan menghasilkan gabah, maka jamur ini dapat menginfeksi gabah dan akhirnya menyebar ke tanaman padi baru melalui bibit yang terinfeksi.\n" +
+                    "\n" +
+                    "Blast memiliki ciri yang mirip seperti brownspot, perbedaannya adalah pada infeksi blast titik tengah bercak padi berwarna putih dan bukan cokelat.",
+            diagnosis = ""
         ),
         Disease(
             id = 3,
-            title = "Penyakit Hawar",
-            body = "Hawar Daun Bakteri, Hawar daun bakteri (HDB) adalah salah satu penyakit yang" +
-                    "dapat menyebabkan pertanaman padi mengalami puso. Penyakit ini disebabkan oleh" +
-                    "bakteri xanthomonas oryzae pv. Oryzae  yang dapat menginfeksi tanaman mulai dari " +
-                    "pembibitan sampai panen. Ada dua macam gejala penyakit HDB. Gejala yang muncul pada saat tanaman berumur kurang dari 30 hari setelah tanam, yaitu pada persemaian atau tanaman yang baru dipindah ke lapang, disebut kresek. Gejala yang timbul pada fase anakan sampai pemasakan disebut hawar (blight). Secara spesifik tanda-tanda tanaman terserang adalah timbulnya bercak berwarna kuning sampai putih, berawal dari terbentuknya garis lebam berair pada bagian tepi daun. Bercak bisa mulai dari salah satu atau kedua tepi daun yang rusak dan berkembang hingga menutupi seluruh helaian daun. Apabila infeksi melalui akar atau pangkal batang, tanaman terlihat kering seperti terbakar. Penyakit hawar daun ini merupakan bakteri yang tersebar luas dan dapat menurunkan hasil panen yang cukup signifikan. Penyakit ini menyerang saat kondisi musim hujan atau musim kemarau yang basah, terutama pada lahan sawah yang selalu tergenang dan kandungan pupuk N tinggi. " +
-                    "Penyakit ini disebabkan bakteri Xanthomonas campestris pv oryzae."
+            title = "BROWNSPOT",
+            body = "Penyakit ini diidentifikasi dengan munculnya bercak cokelat pada batang daun padi yang biasanya disebabkan oleh kurangnya unsur hara pada tanah, utamanya unsur kalium. Tercatat bahwa penyakit ini dapat menyebabkan kerugian hasil panen mulai dari 50 hingga 90 persen (Herlisa, 2022).\n" +
+                    "\n" +
+                    "Penyebab dari penyakit ini adalah infeksi jamur Helminthosporium oryzae, yang bisa menginfeksi batang daun padi hingga gabah dan beras. Sehingga menyebabkan padi tidak dapat dikonsumsi (Mew, 2018).",
+            diagnosis = ""
         ),
+        Disease(
+            id = 4,
+            title = "TUNGRO",
+            body = "Penyakit ini disebabkan oleh 2 virus, yaitu Rice Tungro Spherical Virus (RTSV) dan Rice Tungro Bacilliform Virus (RTBV). Virus ini bisa ditularkan melalui serangga, khususnya wereng hijau.\n" +
+                    "\n" +
+                    "Tanaman padi yang terinfeksi tungro akan menampilkan gejala seperti daun yang menguning dan pertumbuhan padi menjadi terhambat serta tanaman menjadi kerdil atau ruas memendek (Hendri, 2020).",
+            diagnosis = ""
+        ),
+        Disease(
+            id = 5,
+            title = "HEALTHY",
+            body = "Padi yang sehat memiliki warna batang daun yang hijau dengan jumlah anakan padi yang cukup (25/rumpun). Selain itu, akar padi yang berwarna putih juga merupakan salah satu indikator padi yang sehat.",
+            diagnosis = ""
+        )
     )
 }

@@ -20,7 +20,7 @@ fun BottomAppBar(){
         modifier=Modifier.fillMaxWidth(),
         backgroundColor = bottomBarColor,
         cutoutShape = CircleShape,
-        contentPadding = PaddingValues(vertical = 20.dp),
+        contentPadding = PaddingValues(vertical = 10.dp),
         elevation = 2.dp
     ) {
 

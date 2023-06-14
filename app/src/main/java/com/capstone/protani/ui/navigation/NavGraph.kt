@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.capstone.protani.domain.model.WindowInfo
+import com.capstone.protani.domain.model.rememberWindowInfo
 import com.capstone.protani.ui.AboutScreen
 import com.capstone.protani.ui.AnimatedSplashScreen
 import com.capstone.protani.ui.CameraScannerScreen
@@ -17,6 +19,7 @@ import com.capstone.protani.ui.WikipadiScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController,context:Context){
+
     NavHost(navController = navController, startDestination = Screen.Splash.route){
         composable(route = Screen.Splash.route){ AnimatedSplashScreen(navController)}
         composable(route = Screen.Home.route){
