@@ -48,7 +48,7 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
         }
         composable(route=Screen.MapScreen.route){
             Box(modifier = Modifier.fillMaxSize()){
-                MapScreen()
+                MapScreen(navController,context)
             }
         }
     }

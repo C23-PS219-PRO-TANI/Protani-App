@@ -1,5 +1,6 @@
 package com.capstone.protani.presentation.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -19,7 +20,6 @@ import androidx.camera.view.PreviewView
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -29,15 +29,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -51,28 +47,22 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -81,8 +71,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
 import com.capstone.protani.ml.ModelUnquant
 import com.capstone.protani.presentation.ui.theme.modalColor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import com.capstone.protani.presentation.viewmodels.MapViewModel
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -103,6 +94,7 @@ private var shouldShowStorage:Boolean? = null
 private var shouldShowPhoto:MutableState<Boolean> = mutableStateOf(false)
 private var uriPhoto:Uri?=null
 private var outputResult:MutableState<String> = mutableStateOf("")
+private val locationPermissionCode = 1001
 
 var imageProcessor: ImageProcessor = ImageProcessor.Builder()
     .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
@@ -111,7 +103,6 @@ var imageProcessor: ImageProcessor = ImageProcessor.Builder()
 @Composable
 fun popUpDialog(result: String,visibility:Boolean) {
     val visibleState = remember { mutableStateOf(visibility) }
-    Log.d("visibleState","${visibleState.value}")
     AnimatedVisibility(
         visible = visibility,
         enter = fadeIn(animationSpec = tween(durationMillis = 300, easing = LinearEasing)),
@@ -153,7 +144,6 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                     )
-                    Text(text = "Padi sangat sehat!", color = Color.White)
                 }
             }else{
                 Column {
@@ -191,6 +181,7 @@ fun CameraView(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val visibilityPopUp:MutableState<Boolean> = remember {mutableStateOf(false)}
+    val mapViewModel:MapViewModel = viewModel()
     val storageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()){uri:Uri?->
         visibilityPopUp.value = true
@@ -209,7 +200,19 @@ fun CameraView(
                     // clear it here as you can no longer have the bitmap
                 }
             })
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+        if(outputResult.value.isNotEmpty()){
+            fusedLocationClient.lastLocation.addOnSuccessListener { coordinate->
+                mapViewModel.coordinate(
+                    coordinate=LatLng(coordinate.latitude,coordinate.longitude),
+                    city = "",
+                    provence = "",
+                    address = ""
+                )
+            }
+        }
     }
+
         //permission launcher
         val permissionLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.RequestPermission()
@@ -220,17 +223,17 @@ fun CameraView(
         }
         //permission for external storage
         when{
-            ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED -> {
                 shouldShowStorage = true
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 LocalContext.current as Activity,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)->
+                Manifest.permission.READ_EXTERNAL_STORAGE)->
                 shouldShowStorage = true
             else->{
                 SideEffect {
-                    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }
         }
@@ -277,6 +280,17 @@ fun CameraView(
                     onError = onError
                 )
                 visibilityPopUp.value = true
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+                if(outputResult.value.isNotEmpty()){
+                    fusedLocationClient.lastLocation.addOnSuccessListener { coordinate->
+                        mapViewModel.coordinate(
+                            coordinate=LatLng(coordinate.latitude,coordinate.longitude),
+                            city = "",
+                            provence = "",
+                            address = ""
+                        )
+                    }
+                }
             },
             content = {
                 Icon(
@@ -328,15 +342,47 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
         }
         //permission for camera
         when{
-            ContextCompat.checkSelfPermission(context,android.Manifest.permission.CAMERA)
+            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_GRANTED->{
                 shouldShowCamera.value = true
             }
-            ActivityCompat.shouldShowRequestPermissionRationale(LocalContext.current as Activity,android.Manifest.permission.CAMERA)
+            ActivityCompat.shouldShowRequestPermissionRationale(LocalContext.current as Activity,
+                Manifest.permission.CAMERA)
             -> shouldShowCamera.value = true
             else->{
                 SideEffect {
-                    permissionLauncher.launch(android.Manifest.permission.CAMERA)
+                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+            }
+        }
+
+        //permissions location
+        when{
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED -> {
+                shouldShowCamera.value = true
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                LocalContext.current as Activity,
+                Manifest.permission.ACCESS_FINE_LOCATION)->{
+                shouldShowCamera.value = true
+                }
+            else->{
+                SideEffect {
+                    permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
+            }
+        }
+        when{
+            ContextCompat.checkSelfPermission(context,Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED->{
+                shouldShowCamera.value = true
+            }
+            ActivityCompat.shouldShowRequestPermissionRationale(LocalContext.current as Activity,Manifest.permission.READ_EXTERNAL_STORAGE)
+            -> shouldShowCamera.value = true
+            else->{
+                SideEffect {
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             }
         }
