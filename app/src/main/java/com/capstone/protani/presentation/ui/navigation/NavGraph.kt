@@ -15,6 +15,7 @@ import com.capstone.protani.ui.WikipadiScreen
 import com.capstone.protani.presentation.ui.AboutScreen
 import com.capstone.protani.presentation.ui.CameraScannerScreen
 import com.capstone.protani.presentation.ui.ChatBot
+import com.capstone.protani.presentation.viewmodels.ChatViewModel
 
 import com.google.accompanist.pager.ExperimentalPagerApi
 
@@ -53,7 +54,7 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
         }
         composable(route=Screen.ChatBot.route){
             Box(modifier=Modifier.fillMaxSize()){
-                ChatBot(navController)
+                ChatBot(navController, viewModel = ChatViewModel())
             }
         }
 //        composable(route=Screen.MapScreen.route){
