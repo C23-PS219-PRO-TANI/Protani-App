@@ -108,7 +108,7 @@ fun AboutScreen(navHostController: NavHostController){
                     modifier= Modifier
                         .fillMaxWidth()
                         .height(670.dp)
-                        .padding(top = 30.dp)
+                        .padding(top = 10.dp)
                         .align(Alignment.BottomCenter),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -120,7 +120,7 @@ fun AboutScreen(navHostController: NavHostController){
                         painter = painterResource(id = R.drawable.logo_2),
                         contentDescription = "logo_protani"
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     Column(modifier= Modifier
                         .padding(top = 30.dp)
                         .size(width = 400.dp, height = 400.dp)
@@ -136,7 +136,15 @@ fun AboutScreen(navHostController: NavHostController){
                             text = "PRO-Tani adalah Aplikasi Deteksi Kesehatan Padi dan Solusi untuk membantu para Petani di Indonesia.\n" +
                                     "\n" +
                                     "Aplikasi ini mampu mendeteksi 4 penyakit pada padi dan memberikan solusi penanganannya melalui chatbot yang tersedia. Tidak hanya itu hasil dari deteksi dapat ditandai pada peta sebaran, sebagai monitor untuk melihat daerah mana saja yang paling banyak memiliki permasalahan pada padinya.\n" +
-                                    "\n",
+                                    "\n" +
+                                    "Aplikasi ini di kembangkan oleh : \n" +
+                                    "\n" +
+                                    "M228DSX0248 – Glenhans Kuaya Fredlino\n" +
+                                    "M228DSX0155 – Anugrah Igo Aldi Wibowo\n" +
+                                    "C305DSY3147 – Rischa Nuril Fadila\n" +
+                                    "C166DSX2206 – Lukman Ernandi\n" +
+                                    "A296DSX1690 – Hanif Hanan Al-Jufri\n" +
+                                    "A360DSX2276 – Muhammad Yaumil Ramadhani",
                             fontWeight = FontWeight.Normal,
                             fontSize = 16.sp,
                             textAlign = TextAlign.Justify

@@ -5,10 +5,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -29,6 +34,7 @@ import com.capstone.protani.domain.data.DiseaseData
 import com.capstone.protani.domain.model.Disease
 import com.capstone.protani.presentation.ui.navigation.Screen
 import com.capstone.protani.presentation.ui.theme.green500
+import com.capstone.protani.presentation.ui.theme.modalColor
 
 @Composable
 fun WikipadiScreen(navHostController: NavHostController){
@@ -129,21 +135,51 @@ fun WikipadiScreen(navHostController: NavHostController){
     }
 }
 
+
 @Composable
-fun TabLayout(items: List<Disease> , selectedTabIndex: MutableState<Int>) {
+fun TabLayout(items: List<Disease>, selectedTabIndex: MutableState<Int>) {
     val titles = items.map { it.title }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        TabRow(selectedTabIndex = selectedTabIndex.value, backgroundColor = green500) {
+        TabRow(
+            selectedTabIndex = selectedTabIndex.value,
+            backgroundColor = Color.Transparent,
+            contentColor = Color.Black,
+            indicator = { tabPositions ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(2.dp)
+                        .offset {
+                            IntOffset(
+                                x = tabPositions[selectedTabIndex.value].left.roundToPx(),
+                                y = 0
+                            )
+                        }
+                )
+            },
+            divider = {}
+        ) {
             titles.forEachIndexed { index, title ->
                 Tab(
                     selected = selectedTabIndex.value == index,
-                    onClick = { selectedTabIndex.value = index }
+                    onClick = { selectedTabIndex.value = index },
+                    modifier = Modifier
+                        .padding(bottom = 8.dp, top = 8.dp)
+                        .background(
+                            color = if (selectedTabIndex.value == index) modalColor else Color.Transparent,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = modalColor,
+                            shape = RoundedCornerShape(16.dp)
+                        )
                 ) {
                     Text(
                         text = title,
-                        modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
                         fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic,
                         fontSize = 10.sp,
                         textAlign = TextAlign.Justify
                     )
@@ -155,6 +191,8 @@ fun TabLayout(items: List<Disease> , selectedTabIndex: MutableState<Int>) {
         DiseaseInfoItem(disease = selectedDisease)
     }
 }
+
+
 
 @Composable
 fun DiseaseInfoItem(disease: Disease) {
