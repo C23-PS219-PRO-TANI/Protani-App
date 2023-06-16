@@ -18,7 +18,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://ajakan.xyz/api/")
+                .baseUrl("http://ajakan.xyz/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

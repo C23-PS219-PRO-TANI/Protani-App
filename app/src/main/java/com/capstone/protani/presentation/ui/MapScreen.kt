@@ -67,11 +67,8 @@ fun MapScreen(navHostController: NavHostController,context:Context) {
     mapViewModel.getAllCoordinate()
     val allData = mapViewModel.allCoordinate.observeAsState()
     allData.value?.map {map: Map ->
-        listOfLatLng.add(map.coordinate)
+        listOfLatLng.add(map.coordinate as LatLng)
     }
-    listOfLatLng.add(LatLng(-6.962402095845577, 107.64474035113993))
-    listOfLatLng.add(LatLng(-6.963094327163783, 107.64396787493828))
-    listOfLatLng.add(LatLng(-6.9638078568381, 107.64607072682053))
 
     //positioning camera when we have coordinate
     val cameraPositionState = rememberCameraPositionState {

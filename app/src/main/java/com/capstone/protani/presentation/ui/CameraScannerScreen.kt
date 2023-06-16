@@ -204,12 +204,13 @@ fun CameraView(
         if(outputResult.value.isNotEmpty()){
             fusedLocationClient.lastLocation.addOnSuccessListener { coordinate->
                 mapViewModel.coordinate(
-                    coordinate=LatLng(coordinate.latitude,coordinate.longitude),
-                    city = "",
-                    provence = "",
-                    address = ""
+                    coordinate="${coordinate.latitude} ${coordinate.longitude}",
+                    city = "null",
+                    provence = "null",
+                    address = "null"
                 )
             }
+            Toast.makeText(context,"${mapViewModel.successCreated}",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -282,14 +283,16 @@ fun CameraView(
                 visibilityPopUp.value = true
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
                 if(outputResult.value.isNotEmpty()){
-                    fusedLocationClient.lastLocation.addOnSuccessListener { coordinate->
+                    fusedLocationClient.lastLocation
+                        .addOnSuccessListener { coordinate->
                         mapViewModel.coordinate(
-                            coordinate=LatLng(coordinate.latitude,coordinate.longitude),
-                            city = "",
-                            provence = "",
-                            address = ""
+                            coordinate="${coordinate.latitude} ${coordinate.longitude}",
+                            city = "null",
+                            provence = "null" ,
+                            address = "null"
                         )
                     }
+                    Toast.makeText(context,"${mapViewModel.successCreated}",Toast.LENGTH_SHORT).show()
                 }
             },
             content = {
