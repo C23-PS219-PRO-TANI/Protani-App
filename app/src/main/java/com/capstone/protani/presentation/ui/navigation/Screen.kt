@@ -9,4 +9,5 @@ sealed class Screen(val route:String) {
     object deteksiPenyakit: Screen("deteksiPenyakit_screen")
     object ChatBot:Screen("chatbot_screen")
     object MapScreen:Screen("map_screen")
+    object OnBoarding:Screen("onBoarding_screen")
 }

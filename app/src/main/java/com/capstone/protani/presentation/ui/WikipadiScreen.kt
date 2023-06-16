@@ -27,8 +27,8 @@ import androidx.navigation.NavHostController
 import com.capstone.protani.R
 import com.capstone.protani.domain.data.DiseaseData
 import com.capstone.protani.domain.model.Disease
-import com.capstone.protani.ui.components.DiseasesListItem
-import com.capstone.protani.ui.navigation.Screen
+import com.capstone.protani.presentation.ui.navigation.Screen
+import com.capstone.protani.presentation.ui.theme.green500
 
 @Composable
 fun WikipadiScreen(navHostController: NavHostController){
@@ -41,7 +41,7 @@ fun WikipadiScreen(navHostController: NavHostController){
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .background(if (isSystemInDarkTheme()) Color.Black else Color.White)
+                    .background(if (isSystemInDarkTheme()) Color.White else Color.White)
             ) {
                 Image(
                     modifier=Modifier.size(width = 140.dp, height = 140.dp),
@@ -64,7 +64,7 @@ fun WikipadiScreen(navHostController: NavHostController){
                         navHostController.popBackStack()
                         navHostController.navigate(Screen.Home.route)
                     }
-                    .zIndex(1f)) {
+                    ) {
                     Image(
                         modifier= Modifier
                             .padding(
@@ -114,7 +114,7 @@ fun WikipadiScreen(navHostController: NavHostController){
                         contentDescription = "sawah"
                     )
                     Column(modifier=Modifier
-                        .size(width = 400.dp, height = 400.dp)
+                        .size(width = 435.dp, height = 500.dp)
                     ){
                         TabLayout(items = items, selectedTabIndex = selectedTabIndex)
                     }
@@ -134,7 +134,7 @@ fun TabLayout(items: List<Disease> , selectedTabIndex: MutableState<Int>) {
     val titles = items.map { it.title }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        TabRow(selectedTabIndex = selectedTabIndex.value) {
+        TabRow(selectedTabIndex = selectedTabIndex.value, backgroundColor = green500) {
             titles.forEachIndexed { index, title ->
                 Tab(
                     selected = selectedTabIndex.value == index,
@@ -144,7 +144,7 @@ fun TabLayout(items: List<Disease> , selectedTabIndex: MutableState<Int>) {
                         text = title,
                         modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 9.sp,
+                        fontSize = 10.sp,
                         textAlign = TextAlign.Justify
                     )
                 }

@@ -71,6 +71,7 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.3"
     debugImplementation "androidx.compose.ui:ui-tooling:1.4.3"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.3"
+    implementation 'androidx.compose.material3:material3:1.1.0'
     //navigation
     implementation 'androidx.navigation:navigation-compose:2.5.3'
     // CameraX
@@ -94,5 +95,11 @@ dependencies {
     //gmaps
     implementation 'com.google.maps.android:maps-compose:2.7.2'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+
+    implementation 'com.airbnb.android:lottie-compose:5.2.0'
+    implementation "com.google.accompanist:accompanist-pager:0.20.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.18.0"
+
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.18.0"
 
 }

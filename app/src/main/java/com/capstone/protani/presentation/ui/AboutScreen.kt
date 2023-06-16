@@ -51,7 +51,7 @@ fun AboutScreen(navHostController: NavHostController){
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .background(if (isSystemInDarkTheme()) Color.Black else Color.White)
+                    .background(if (isSystemInDarkTheme()) Color.White else Color.White)
             ) {
                 Image(
                     modifier= Modifier.size(width = 140.dp, height = 140.dp),
@@ -74,7 +74,7 @@ fun AboutScreen(navHostController: NavHostController){
                         navHostController.popBackStack()
                         navHostController.navigate(Screen.Home.route)
                     }
-                    .zIndex(1f)) {
+                    ) {
                     Image(
                         modifier= Modifier
                             .padding(
@@ -123,16 +123,20 @@ fun AboutScreen(navHostController: NavHostController){
                     Spacer(modifier = Modifier.height(20.dp))
                     Column(modifier= Modifier
                         .padding(top = 30.dp)
-                        .size(width = 300.dp, height = 400.dp)
+                        .size(width = 400.dp, height = 400.dp)
                     ){
                         Text(
                             text = "Apa itu PRO-Tani ?",
                             fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
                             fontSize = 16.sp,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            modifier = Modifier.padding(bottom = 8.dp).align(Alignment.CenterHorizontally)
                         )
                         Text(
-                            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at ex a lectus dictum aliquam. Vestibulum congue, turpis et maximus finibus, augue metus tristique ex, a blandit mauris ligula at felis. Nunc congue massa id eros lacinia gravida. Donec dictum accumsan lacus, in tristique elit pharetra et. Nunc molestie nulla non venenatis egestas. Fusce at augue ac turpis laoreet rutrum ut a odio. Pellentesque at porta tortor. Vestibulum consectetur dignissim fermentum. Pellentesque sed feugiat velit. Integer vulputate interdum justo ac dictum. Nam vel dictum elit. Nullam quis massa eu risus venenatis blandit. Curabitur sed justo finibus lectus luctus ornare vel sit amet orci. Nullam blandit ex at nibh pharetra, et lobortis lectus elementum.",
+                            text = "PRO-Tani adalah Aplikasi Deteksi Kesehatan Padi dan Solusi untuk membantu para Petani di Indonesia.\n" +
+                                    "\n" +
+                                    "Aplikasi ini mampu mendeteksi 4 penyakit pada padi dan memberikan solusi penanganannya melalui chatbot yang tersedia. Tidak hanya itu hasil dari deteksi dapat ditandai pada peta sebaran, sebagai monitor untuk melihat daerah mana saja yang paling banyak memiliki permasalahan pada padinya.\n" +
+                                    "\n",
                             fontWeight = FontWeight.Normal,
                             fontSize = 16.sp,
                             textAlign = TextAlign.Justify
