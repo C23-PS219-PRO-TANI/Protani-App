@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,8 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.capstone.protani.data.remote.api.ApiService
-import com.capstone.protani.domain.model.DataX
-import com.capstone.protani.domain.model.Map
 import com.capstone.protani.presentation.ui.components.LoadingScreen
 import com.capstone.protani.presentation.ui.navigation.Screen
 import com.capstone.protani.presentation.viewmodels.MapViewModel
