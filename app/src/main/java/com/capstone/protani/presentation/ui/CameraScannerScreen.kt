@@ -47,6 +47,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -70,10 +71,10 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.capstone.protani.R
 import com.capstone.protani.ml.ModelUnquant
+import com.capstone.protani.presentation.ui.components.LoadingScreen
 import com.capstone.protani.presentation.ui.theme.modalColor
 import com.capstone.protani.presentation.viewmodels.MapViewModel
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -94,7 +95,6 @@ private var shouldShowStorage:Boolean? = null
 private var shouldShowPhoto:MutableState<Boolean> = mutableStateOf(false)
 private var uriPhoto:Uri?=null
 private var outputResult:MutableState<String> = mutableStateOf("")
-private val locationPermissionCode = 1001
 
 var imageProcessor: ImageProcessor = ImageProcessor.Builder()
     .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
@@ -145,12 +145,12 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         color = Color.White,
                     )
                 }
-            }else{
+            }else if(result == "Bacterial Blight"){
                 Column {
                     Image(
                         modifier=Modifier.size(width=100.dp, height = 100.dp),
                         painter = painterResource(id = R.drawable.sakitpadi),
-                        contentDescription = "sehatNotification"
+                        contentDescription = "sakitpadi"
                     )
                     Text(
                         modifier=Modifier.padding(start = 20.dp),
@@ -164,6 +164,67 @@ fun popUpDialog(result: String,visibility:Boolean) {
 //                        Text(text = "Check Selengkapnya", color = Color.Black)
 //                    }
                 }
+            }else if(result == "Blast"){
+                Column {
+                    Image(
+                        modifier=Modifier.size(width=100.dp, height = 100.dp),
+                        painter = painterResource(id = R.drawable.sakitpadi),
+                        contentDescription = "sakitpadi"
+                    )
+                    Text(
+                        modifier=Modifier.padding(start = 20.dp),
+                        text = result,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                    )
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
+//                        Text(text = "Check Selengkapnya", color = Color.Black)
+//                    }
+                }
+
+            }else if(result == "Brownspot"){
+                Column {
+                    Image(
+                        modifier=Modifier.size(width=100.dp, height = 100.dp),
+                        painter = painterResource(id = R.drawable.sakitpadi),
+                        contentDescription = "sakitpadi"
+                    )
+                    Text(
+                        modifier=Modifier.padding(start = 20.dp),
+                        text = result,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                    )
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
+//                        Text(text = "Check Selengkapnya", color = Color.Black)
+//                    }
+                }
+
+            }else if(result == "Tungro"){
+                Column {
+                    Image(
+                        modifier=Modifier.size(width=100.dp, height = 100.dp),
+                        painter = painterResource(id = R.drawable.sakitpadi),
+                        contentDescription = "sakitpadi"
+                    )
+                    Text(
+                        modifier=Modifier.padding(start = 20.dp),
+                        text = result,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                    )
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
+//                        Text(text = "Check Selengkapnya", color = Color.Black)
+//                    }
+                }
+            }else{
+                LoadingScreen(visible = true)
             }
         }
     }
@@ -184,7 +245,6 @@ fun CameraView(
     val mapViewModel:MapViewModel = viewModel()
     val storageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()){uri:Uri?->
-        visibilityPopUp.value = true
         Glide.with(context)
             .asBitmap()
             .apply(RequestOptions().override(600,600))
@@ -200,6 +260,7 @@ fun CameraView(
                     // clear it here as you can no longer have the bitmap
                 }
             })
+        visibilityPopUp.value = true
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         if(outputResult.value.isNotEmpty()){
             fusedLocationClient.lastLocation.addOnSuccessListener { coordinate->
@@ -210,7 +271,6 @@ fun CameraView(
                     address = "null"
                 )
             }
-            Toast.makeText(context,"${mapViewModel.successCreated}",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -278,7 +338,7 @@ fun CameraView(
                     outputDirectory = outputDirectory,
                     executor = executor,
                     onImageCaptured = onImageCaptured,
-                    onError = onError
+                    onError = onError,
                 )
                 visibilityPopUp.value = true
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -292,7 +352,6 @@ fun CameraView(
                             address = "null"
                         )
                     }
-                    Toast.makeText(context,"${mapViewModel.successCreated}",Toast.LENGTH_SHORT).show()
                 }
             },
             content = {
@@ -412,6 +471,7 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
                     .into(object : CustomTarget<Bitmap>(){
                         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                             outputResult.value = outputGenerator(resource, context)
+
                         }
                         override fun onLoadCleared(placeholder: Drawable?) {
                             // this is called when imageView is cleared on lifecycle call or for
@@ -440,7 +500,7 @@ private fun takePhoto(
     outputDirectory: File,
     executor: Executor,
     onImageCaptured: (Uri) -> Unit,
-    onError: (ImageCaptureException) -> Unit
+    onError: (ImageCaptureException) -> Unit,
 ){
     val photoFile = File(
         outputDirectory,
