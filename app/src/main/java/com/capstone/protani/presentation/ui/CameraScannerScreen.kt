@@ -47,7 +47,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -159,10 +158,7 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                     )
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
-//                        Text(text = "Check Selengkapnya", color = Color.Black)
-//                    }
+
                 }
             }else if(result == "Blast"){
                 Column {
@@ -178,10 +174,6 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                     )
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
-//                        Text(text = "Check Selengkapnya", color = Color.Black)
-//                    }
                 }
 
             }else if(result == "Brownspot"){
@@ -198,10 +190,6 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                     )
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
-//                        Text(text = "Check Selengkapnya", color = Color.Black)
-//                    }
                 }
 
             }else if(result == "Tungro"){
@@ -218,10 +206,6 @@ fun popUpDialog(result: String,visibility:Boolean) {
                         fontWeight = FontWeight.Bold,
                         color = Color.White,
                     )
-//                    Spacer(modifier = Modifier.height(20.dp))
-//                    Button(onClick = { /*TODO*/ }, modifier=Modifier.background(color=Color.White)) {
-//                        Text(text = "Check Selengkapnya", color = Color.Black)
-//                    }
                 }
             }else{
                 LoadingScreen(visible = true)
@@ -474,10 +458,7 @@ fun CameraScannerScreen(navHostController: NavHostController,context:Context){
 
                         }
                         override fun onLoadCleared(placeholder: Drawable?) {
-                            // this is called when imageView is cleared on lifecycle call or for
-                            // some other reason.
-                            // if you are referencing the bitmap somewhere else too other than this imageView
-                            // clear it here as you can no longer have the bitmap
+
                         }
                     })
             }

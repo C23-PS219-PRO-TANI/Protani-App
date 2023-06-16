@@ -1,9 +1,6 @@
 package com.capstone.protani.presentation.viewmodels
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +10,6 @@ import com.capstone.protani.domain.model.DataX
 import com.capstone.protani.domain.model.GetAllMapResponse
 import com.capstone.protani.domain.model.Map
 import com.capstone.protani.domain.model.MapResponse
-import com.google.android.gms.maps.model.LatLng
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

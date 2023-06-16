@@ -11,27 +11,21 @@ import androidx.navigation.compose.composable
 import com.capstone.protani.presentation.ui.AnimatedSplashScreen
 
 import com.capstone.protani.presentation.ui.HomeScreen
-import com.capstone.protani.ui.WikipadiScreen
+import com.capstone.protani.presentation.ui.WikipadiScreen
 import com.capstone.protani.presentation.ui.AboutScreen
 import com.capstone.protani.presentation.ui.CameraScannerScreen
 import com.capstone.protani.presentation.ui.ChatBot
 import com.capstone.protani.presentation.ui.MapScreen
 import com.capstone.protani.presentation.viewmodels.ChatViewModel
 
-import com.google.accompanist.pager.ExperimentalPagerApi
 
 
-@OptIn(ExperimentalPagerApi::class)
+
+
 @Composable
 fun SetupNavGraph(navController: NavHostController,context:Context){
     NavHost(navController = navController, startDestination = Screen.Splash.route){
         composable(route = Screen.Splash.route){ AnimatedSplashScreen(navController) }
-
-//        composable(route = Screen.OnBoarding.route){
-//            Box(modifier = Modifier.fillMaxSize()){
-//                OnBoarding()
-//            }
-//        }
 
         composable(route = Screen.Home.route){
             Box(modifier = Modifier.fillMaxSize()){
@@ -65,12 +59,5 @@ fun SetupNavGraph(navController: NavHostController,context:Context){
                 MapScreen(navController,context)
             }
         }
-//        composable(route=Screen.MapScreen.route){
-//            Box(modifier = Modifier.fillMaxSize()){
-//                MapScreen()
-//            }
-//        }
-
-
     }
 }

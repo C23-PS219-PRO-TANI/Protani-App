@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface OpenAIApi {
 
     @Headers("Content-Type: application/json", "Authorization: Bearer ")
-    //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
+    // Api key OPEN AI tidak dimasukan karena, ketika dimasukan, aplikasi menjadi error, dan harus generate Api key OPEN AI yang baru
 
     @POST("v1/chat/completions")
     suspend fun generateResponse(@Body requestBody: OpenAIRequestBody): OpenAIResponse
@@ -17,7 +17,7 @@ interface OpenAIApi {
 data class OpenAIRequestBody(
     val model: String = "gpt-3.5-turbo",
     val messages: List<Message>,
-    val max_tokens: Int = 100,
+    val max_tokens: Int = 80,
     val n: Int = 1,
     val temperature: Double = 1.0
 )

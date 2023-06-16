@@ -1,17 +1,13 @@
-package com.capstone.protani.ui
+package com.capstone.protani.presentation.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -27,13 +23,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.capstone.protani.R
 import com.capstone.protani.domain.data.DiseaseData
 import com.capstone.protani.domain.model.Disease
 import com.capstone.protani.presentation.ui.navigation.Screen
-import com.capstone.protani.presentation.ui.theme.green500
 import com.capstone.protani.presentation.ui.theme.modalColor
 
 @Composable
@@ -212,9 +206,3 @@ fun DiseaseInfoItem(disease: Disease) {
     }
 }
 
-
-//@Composable
-//@Preview
-//fun SomePreviewLight(){
-//    WikipadiScreen()
-//}

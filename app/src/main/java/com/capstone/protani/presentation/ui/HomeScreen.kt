@@ -28,7 +28,6 @@ import androidx.navigation.NavHostController
 import com.capstone.protani.R
 import com.capstone.protani.presentation.ui.navigation.Screen
 import com.capstone.protani.presentation.ui.theme.bottomBarColor
-import com.capstone.protani.presentation.ui.theme.card
 import com.capstone.protani.presentation.ui.theme.green500
 import com.capstone.protani.presentation.ui.theme.yellowFAB
 
@@ -36,13 +35,9 @@ import com.capstone.protani.presentation.ui.theme.yellowFAB
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 
 fun HomeScreen(navController: NavHostController) {
-//    val windowInfo = rememberWindowInfo()
-//    if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Expanded && windowInfo.screenHeightInfo is WindowInfo.WindowType.Expanded){}
+
     val isDarkTheme = currentThemeMode == ThemeMode.Dark
     MaterialTheme(colors = if (isDarkTheme) darkColors() else lightColors()) {
-        // Rest of your HomeScreen code
-        // ...
-
         Scaffold(
             scaffoldState = rememberScaffoldState(),
             backgroundColor = Color.White,
@@ -95,18 +90,6 @@ fun HomeScreen(navController: NavHostController) {
                         mutableStateOf(false)
 
                     }
-//                    Switch(
-//                        modifier = Modifier.padding(start = 200.dp),
-//                        checked = currentThemeMode == ThemeMode.Dark,
-//                        onCheckedChange = { isChecked ->
-//                            if (isChecked){
-//                                currentThemeMode == ThemeMode.Dark
-//                            } else {
-//                                currentThemeMode == ThemeMode.Light
-//                            }
-//                        },
-//                        colors = SwitchDefaults.colors(blue200),
-//                    )
                 }
                 Image(
                     modifier = Modifier
@@ -141,13 +124,6 @@ fun HomeScreen(navController: NavHostController) {
                         .align(Alignment.Center)
                 ) {
                     Column {
-//                        Text(
-//                            text = stringResource(id = R.string.fitur_protani),
-//                            fontWeight = FontWeight.Bold,
-//                            fontSize = 18.sp,
-//                            modifier = Modifier
-//                                .padding(start = 10.dp),
-//                        )
                         val context = LocalContext.current
                         Row(modifier = Modifier.padding(start = 10.dp)) {
                             Card(
@@ -317,9 +293,3 @@ fun toggleThemeMode() {
         ThemeMode.Dark -> ThemeMode.Light
     }
 }
-
-//@Composable
-//@Preview
-//fun SomePreviewLight(){
-//    HomeScreen()
-//}

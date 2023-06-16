@@ -1,10 +1,5 @@
 package com.capstone.protani.data.remote.api
 
-
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-
 import com.capstone.protani.domain.model.GetAllMapResponse
 import com.capstone.protani.domain.model.Map
 import com.capstone.protani.domain.model.MapResponse
